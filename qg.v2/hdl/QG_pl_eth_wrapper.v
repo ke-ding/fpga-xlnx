@@ -1,7 +1,7 @@
 //Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2018.1 (lin64) Build 2188600 Wed Apr  4 18:39:19 MDT 2018
-//Date        : Sat Jan 12 18:14:13 2019
+//Date        : Tue Jan 22 14:44:09 2019
 //Host        : milows.home running 64-bit unknown
 //Command     : generate_target QG_pl_eth_wrapper.bd
 //Design      : QG_pl_eth_wrapper
@@ -35,7 +35,6 @@ module QG_pl_eth_wrapper
     clk_25M_out2,
     clk_25M_out3,
     clk_25M_out4,
-    clk_25M_out5,
     gmii1_gtx_clk,
     gmii1_gtx_in,
     gmii1_rx_clk,
@@ -84,8 +83,8 @@ module QG_pl_eth_wrapper
     mdio3_mdio_io,
     mdio4_mdc,
     mdio4_mdio_io,
-    mgt0_clk_n,
-    mgt0_clk_p,
+    mgt0_in_clk_n,
+    mgt0_in_clk_p,
     phy_rst_n1,
     phy_rst_n2,
     phy_rst_n3,
@@ -119,7 +118,6 @@ module QG_pl_eth_wrapper
   output [0:0]clk_25M_out2;
   output [0:0]clk_25M_out3;
   output [0:0]clk_25M_out4;
-  output [0:0]clk_25M_out5;
   output gmii1_gtx_clk;
   input gmii1_gtx_in;
   input gmii1_rx_clk;
@@ -168,8 +166,8 @@ module QG_pl_eth_wrapper
   inout mdio3_mdio_io;
   output mdio4_mdc;
   inout mdio4_mdio_io;
-  input mgt0_clk_n;
-  input mgt0_clk_p;
+  input mgt0_in_clk_n;
+  input mgt0_in_clk_p;
   output [0:0]phy_rst_n1;
   output [0:0]phy_rst_n2;
   output [0:0]phy_rst_n3;
@@ -178,13 +176,6 @@ module QG_pl_eth_wrapper
   input sfp0_rxp;
   output sfp0_txn;
   output sfp0_txp;
-
-  IDELAYCTRL #(
-       .SIM_DEVICE ( "7SERIES" )
-  ) axi_ethernet_idelay_ctrl
-       (.RDY    (),
-        .REFCLK (ref_clk),
-        .RST    (!resetn));
 
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
@@ -211,7 +202,6 @@ module QG_pl_eth_wrapper
   wire [0:0]clk_25M_out2;
   wire [0:0]clk_25M_out3;
   wire [0:0]clk_25M_out4;
-  wire [0:0]clk_25M_out5;
   wire gmii1_gtx_clk;
   wire gmii1_gtx_in;
   wire gmii1_rx_clk;
@@ -272,8 +262,8 @@ module QG_pl_eth_wrapper
   wire mdio4_mdio_io;
   wire mdio4_mdio_o;
   wire mdio4_mdio_t;
-  wire mgt0_clk_n;
-  wire mgt0_clk_p;
+  wire mgt0_in_clk_n;
+  wire mgt0_in_clk_p;
   wire [0:0]phy_rst_n1;
   wire [0:0]phy_rst_n2;
   wire [0:0]phy_rst_n3;
@@ -284,6 +274,13 @@ module QG_pl_eth_wrapper
   wire sfp0_rxp;
   wire sfp0_txn;
   wire sfp0_txp;
+
+  IDELAYCTRL #(
+       .SIM_DEVICE ( "7SERIES" )
+  ) axi_ethernet_idelay_ctrl
+       (.RDY    (),
+        .REFCLK (ref_clk),
+        .RST    (!resetn));
 
   QG_pl_eth QG_pl_eth_i
        (.DDR_addr(DDR_addr),
@@ -311,7 +308,6 @@ module QG_pl_eth_wrapper
         .clk_25M_out2(clk_25M_out2),
         .clk_25M_out3(clk_25M_out3),
         .clk_25M_out4(clk_25M_out4),
-        .clk_25M_out5(clk_25M_out5),
         .gmii1_gtx_clk(gmii1_gtx_clk),
         .gmii1_gtx_in(gmii1_gtx_in),
         .gmii1_rx_clk(gmii1_rx_clk),
@@ -368,8 +364,8 @@ module QG_pl_eth_wrapper
         .mdio4_mdio_i(mdio4_mdio_i),
         .mdio4_mdio_o(mdio4_mdio_o),
         .mdio4_mdio_t(mdio4_mdio_t),
-        .mgt0_clk_n(mgt0_clk_n),
-        .mgt0_clk_p(mgt0_clk_p),
+        .mgt0_in_clk_n(mgt0_in_clk_n),
+        .mgt0_in_clk_p(mgt0_in_clk_p),
         .phy_rst_n1(phy_rst_n1),
         .phy_rst_n2(phy_rst_n2),
         .phy_rst_n3(phy_rst_n3),

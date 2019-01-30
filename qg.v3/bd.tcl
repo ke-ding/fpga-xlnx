@@ -237,19 +237,20 @@ proc create_root_design { parentCell } {
         [get_bd_ports clk_25M_out2]
 
     # Create a const val '1'
-    set const2_val1 [                                    \
+    set const2_val0 [                                    \
         create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:xlconstant:1.1          \
-        xlconstant2_val1 ]
+        xlconstant2_val0 ]
+    set_property CONFIG.CONST_VAL {0} $const2_val0
 
-    create_bd_port -dir O -type data sfp0_en_out
-    create_bd_port -dir O -type data sfp1_en_out
+    create_bd_port -dir O -type data sfp0_disable_out
+    create_bd_port -dir O -type data sfp1_disable_out
 
     connect_bd_net                                      \
-        [get_bd_pins xlconstant2_val1/dout]             \
-        [get_bd_ports sfp0_en_out]                      \
-        [get_bd_ports sfp1_en_out]
+        [get_bd_pins xlconstant2_val0/dout]             \
+        [get_bd_ports sfp0_disable_out]                      \
+        [get_bd_ports sfp1_disable_out]
 
     # Create instance: RESET_BLOCK
     create_hier_cell_RESET_BLOCK [current_bd_instance .] RESET_BLOCK

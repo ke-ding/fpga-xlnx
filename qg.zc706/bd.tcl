@@ -399,8 +399,7 @@ proc create_root_design { parentCell } {
         [get_bd_pins axi_ethernet_sfp/s_axi_lite_clk]
     connect_bd_net -net processing_system7_1_fclk_clk2  \
         [get_bd_pins processing_system7/FCLK_CLK2]      \
-        [get_bd_pins axi_ethernet_sfp/ref_clk]          \
-        [get_bd_pins idelay_ctrl1/ref_clk]
+        [get_bd_pins axi_ethernet_sfp/ref_clk]
     connect_bd_intf_net -intf_net mgt_in_clk            \
         [get_bd_intf_ports mgt_in]                      \
         [get_bd_intf_pins axi_ethernet_sfp/mgt_clk]

@@ -253,9 +253,9 @@ proc create_root_design { parentCell } {
                 CONFIG.PCW_ENET0_ENET0_IO {MIO 16 .. 27}        \
                 CONFIG.PCW_ENET0_GRP_MDIO_IO {MIO 52 .. 53}     \
                 CONFIG.PCW_SD0_GRP_CD_ENABLE {1}        \
-                CONFIG.PCW_SD0_GRP_CD_IO {MIO 47}       \
+                CONFIG.PCW_SD0_GRP_CD_IO {MIO 14}       \
                 CONFIG.PCW_SD0_GRP_WP_ENABLE {1}        \
-                CONFIG.PCW_SD0_GRP_WP_IO {MIO 46}       \
+                CONFIG.PCW_SD0_GRP_WP_IO {MIO 15}       \
                 CONFIG.PCW_UART0_PERIPHERAL_ENABLE {0}  \
                 CONFIG.PCW_UART1_PERIPHERAL_ENABLE {1} ]\
         $processing_system7

@@ -1,0 +1,6 @@
+milo's eth		ysx's eth
+eth0			eth2
+eth1			eth3
+eth2			eth4
+sfp0			sfp3 (clk:mgtrefclkin2)
+sfp1			sfp4 (clk:mgtrefclkin3)

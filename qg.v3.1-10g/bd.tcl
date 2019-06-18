@@ -278,24 +278,25 @@ proc create_root_design { parentCell } {
     # Create instance: RESET_BLOCK
     create_hier_cell_RESET_BLOCK [current_bd_instance .] RESET_BLOCK
 
-    set clk_125M_wiz [                                     \
-        create_bd_cell                                  \
-            -type ip                                    \
-            -vlnv xilinx.com:ip:clk_wiz:6.0             \
-        clk_125M_wiz ]
-    set_property -dict [                                \
-        list    CONFIG.PRIM_SOURCE {Global_buffer} \
-                CONFIG.PRIM_IN_FREQ {200.000}           \
-                CONFIG.MMCM_CLKIN1_PERIOD {5.000}       \
-                CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {125.000} \
-                CONFIG.USE_RESET {false} ]              \
-        $clk_125M_wiz
     set ibufds_200M [                                   \
         create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:util_ds_buf:2.1         \
         ibufds_200M ]
     set_property CONFIG.C_BUF_TYPE {IBUFDS} $ibufds_200M
+
+    set clk_125M_wiz [                                  \
+        create_bd_cell                                  \
+            -type ip                                    \
+            -vlnv xilinx.com:ip:clk_wiz:6.0             \
+        clk_125M_wiz ]
+    set_property -dict [                                \
+        list    CONFIG.PRIM_SOURCE {Global_buffer}      \
+                CONFIG.PRIM_IN_FREQ {200.000}           \
+                CONFIG.MMCM_CLKIN1_PERIOD {5.000}       \
+                CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {125.000} \
+                CONFIG.USE_RESET {false} ]              \
+        $clk_125M_wiz
 
     # Create instance: gmii_dma, and set properties
     set gmii0_dma [                                      \
@@ -783,14 +784,17 @@ proc create_root_design { parentCell } {
         [get_bd_pins axi_10g_sfp0/gtrxreset_out]        \
         [get_bd_pins axi_10g_sfp1/gtrxreset]
     connect_bd_net                                      \
-        [get_bd_pins axi_10g_sfp0/qplllock_out]   \
+        [get_bd_pins axi_10g_sfp0/qplllock_out]         \
         [get_bd_pins axi_10g_sfp1/qplllock]
     connect_bd_net                                      \
-        [get_bd_pins axi_10g_sfp0/qplloutclk_out]   \
+        [get_bd_pins axi_10g_sfp0/qplloutclk_out]       \
         [get_bd_pins axi_10g_sfp1/qplloutclk]
     connect_bd_net                                      \
-        [get_bd_pins axi_10g_sfp0/qplloutrefclk_out]\
+        [get_bd_pins axi_10g_sfp0/qplloutrefclk_out]    \
         [get_bd_pins axi_10g_sfp1/qplloutrefclk]
+    connect_bd_net                                      \
+        [get_bd_pins axi_10g_sfp1/reset_counter_done]   \
+        [get_bd_pins axi_10g_sfp0/reset_counter_done_out]
 
     connect_bd_net                                      \
         [get_bd_pins axi_10g_sfp0/s_axis_pause_tdata]   \
@@ -815,6 +819,7 @@ proc create_root_design { parentCell } {
 
     make_bd_intf_pins_external  [get_bd_intf_pins ibufds_200M/CLK_IN_D]
     set_property name clkin_ds_200M [get_bd_intf_ports CLK_IN_D_0]
+    set_property CONFIG.FREQ_HZ 200000000 [get_bd_intf_ports /clkin_ds_200M]
 
     # ic_HP Master ports
     connect_bd_intf_net -intf_net gmii_ic_HP_M00_AXI     \

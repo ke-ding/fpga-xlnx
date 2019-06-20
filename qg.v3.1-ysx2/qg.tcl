@@ -1,7 +1,7 @@
 # Vivado Launch Script
 set impl_const "qg.xdc"
 set device xc7z100ffg900-2 
-set design_top qg_v3
+set design_top qg_v3_1
 set proj_dir ../build/${design_top}_design
 
 create_project -name ${design_top} -force -dir "${proj_dir}" -part ${device}

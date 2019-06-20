@@ -196,10 +196,23 @@ set_property IOSTANDARD LVCMOS33 [get_ports gmii2_gtx_clk]
 set_property LOC U25 [get_ports gmii2_gtx_in]
 set_property IOSTANDARD LVCMOS33 [get_ports gmii2_gtx_in]
 
+#PL external CLKs
+set_property LOC W8 [get_ports refclk_p]
+set_property IOSTANDARD LVDS [get_ports refclk_p]
+create_clock -name refclk_p -period 6.4 [get_ports refclk_p]
+#set_property LOC W7 [get_ports refclk_n]
+#set_property IOSTANDARD LVDS [get_ports refclk_n]
+
+set_property LOC H9 [get_ports free_200M_clk_p]
+set_property IOSTANDARD LVDS [get_ports free_200M_clk_p]
+create_clock -name free_200M_clk_p -period 5 [get_ports free_200M_clk_p]
+#set_property LOC G9 [get_ports free_200M_clk_n]
+#set_property IOSTANDARD LVDS [get_ports free_200M_clk_n]
+
 #PL_SFP0
-set_property LOC W8 [get_ports mgt0_in_clk_p]
-set_property LOC W7 [get_ports mgt0_in_clk_n]
-create_clock -name mgt0_clk_p -period 8.0 [get_ports mgt0_in_clk_p]
+#set_property LOC W8 [get_ports mgt0_in_clk_p]
+#set_property LOC W7 [get_ports mgt0_in_clk_n]
+#create_clock -name mgt0_clk_p -period 8.0 [get_ports mgt0_in_clk_p]
 
 set_property LOC W4 [get_ports sfp0_txp]
 set_property LOC W3 [get_ports sfp0_txn]

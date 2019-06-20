@@ -429,13 +429,19 @@ proc create_root_design { parentCell } {
             -type ip                                    \
             -vlnv xilinx.com:ip:axi_10g_ethernet:3.1    \
             axi_10g_sfp0 ]
-    set_property CONFIG.SupportLevel {1} $axi_10g_sfp0
+    set_property -dict [                                \
+        list    CONFIG.SupportLevel {1}                 \
+                CONFIG.DClkRate {125} ]                 \
+         $axi_10g_sfp0
     set axi_10g_sfp1 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:axi_10g_ethernet:3.1    \
             axi_10g_sfp1 ]
-    set_property CONFIG.SupportLevel {0} $axi_10g_sfp1
+    set_property -dict [                                \
+        list    CONFIG.SupportLevel {0}                 \
+                CONFIG.DClkRate {125} ]                 \
+        $axi_10g_sfp1
 
     set rx_fifo_sfp0 [                                  \
         create_bd_cell                                  \
@@ -845,8 +851,8 @@ proc create_root_design { parentCell } {
     set_property name sfp1_txn [get_bd_ports txn_0]
 
     make_bd_intf_pins_external  [get_bd_intf_pins ibufds_200M/CLK_IN_D]
-    set_property name clkin_ds_200M [get_bd_intf_ports CLK_IN_D_0]
-    set_property CONFIG.FREQ_HZ 200000000 [get_bd_intf_ports /clkin_ds_200M]
+    set_property name free_200M [get_bd_intf_ports CLK_IN_D_0]
+    set_property CONFIG.FREQ_HZ 200000000 [get_bd_intf_ports /free_200M]
 
     # ic_HP Master ports
     connect_bd_intf_net -intf_net gmii_ic_HP_M00_AXI     \

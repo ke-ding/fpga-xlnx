@@ -210,19 +210,6 @@ proc create_root_design { parentCell } {
             -vlnv xilinx.com:interface:mdio_rtl:1.0     \
         mdio2 ]
 
-    #set refclk_n [ create_bd_port -dir I -type clk refclk_n ]
-    #set refclk_p [ create_bd_port -dir I -type clk refclk_p ]
-
-    #set sfp0_rxn [ create_bd_port -dir I sfp0_rxn ]
-    #set sfp0_rxp [ create_bd_port -dir I sfp0_rxp ]
-    #set sfp0_txn [ create_bd_port -dir O sfp0_txn ]
-    #set sfp0_txp [ create_bd_port -dir O sfp0_txp ]
-
-    #set sfp1_rxn [ create_bd_port -dir I sfp1_rxn ]
-    #set sfp1_rxp [ create_bd_port -dir I sfp1_rxp ]
-    #set sfp1_txn [ create_bd_port -dir O sfp1_txn ]
-    #set sfp1_txp [ create_bd_port -dir O sfp1_txp ]
-
     set phy_rst_n0 [                                    \
         create_bd_port                                  \
             -dir O                                      \
@@ -257,12 +244,6 @@ proc create_root_design { parentCell } {
             -type clk                                   \
         gmii2_gtx_in ]
     set_property CONFIG.FREQ_HZ 125000000 $gmii2_gtx_in
-
-    #set mgt1_in [                                       \
-        create_bd_intf_port                             \
-            -mode Slave                                 \
-            -vlnv xilinx.com:interface:diff_clock_rtl:1.0 \
-        mgt1_in ]
 
     create_bd_port -dir O -type data clk_25M_out0
     create_bd_port -dir O -type data clk_25M_out1
@@ -324,6 +305,13 @@ proc create_root_design { parentCell } {
             -vlnv xilinx.com:ip:util_ds_buf:2.1         \
         ibufds_200M ]
     set_property CONFIG.C_BUF_TYPE {IBUFDS} $ibufds_200M
+    set bufg_200M [                                     \
+        create_bd_cell                                  \
+            -type ip                                    \
+            -vlnv xilinx.com:ip:util_ds_buf:2.1         \
+        bufg_200M ]
+    set_property CONFIG.C_BUF_TYPE {BUFG} $bufg_200M
+
 
     set clk_125M_wiz [                                  \
         create_bd_cell                                  \
@@ -379,7 +367,8 @@ proc create_root_design { parentCell } {
         list    CONFIG.c_include_mm2s_dre {1}           \
                 CONFIG.c_include_s2mm_dre {1}           \
                 CONFIG.c_sg_include_stscntrl_strm {0}   \
-                CONFIG.c_sg_use_stsapp_length {0} ]     \
+                CONFIG.c_sg_use_stsapp_length {0}       \
+                CONFIG.c_m_axis_mm2s_tdata_width {64} ] \
         $sfp0_dma
     set sfp1_dma [                                      \
         create_bd_cell                                  \
@@ -390,7 +379,8 @@ proc create_root_design { parentCell } {
         list    CONFIG.c_include_mm2s_dre {1}           \
                 CONFIG.c_include_s2mm_dre {1}           \
                 CONFIG.c_sg_include_stscntrl_strm {0}   \
-                CONFIG.c_sg_use_stsapp_length {0} ]     \
+                CONFIG.c_sg_use_stsapp_length {0}       \
+                CONFIG.c_m_axis_mm2s_tdata_width {64} ] \
         $sfp1_dma
 
     # Create instance: axi_eth_gmii/sfp, and set properties
@@ -713,12 +703,6 @@ proc create_root_design { parentCell } {
     connect_bd_intf_net -intf_net sfp0_dma_m_axi_s2mm   \
         [get_bd_intf_pins sfp0_dma/M_AXI_S2MM]          \
         [get_bd_intf_pins sfp_ic_HP/S02_AXI]
-    connect_bd_intf_net -intf_net sfp0_dma_m_axis_mm2s  \
-        [get_bd_intf_pins sfp0_dma/M_AXIS_MM2S]         \
-        [get_bd_intf_pins tx_fifo_sfp0/s_axis]
-    connect_bd_intf_net -intf_net rx_fifo_sfp0_m_axis   \
-        [get_bd_intf_pins rx_fifo_sfp0/m_axis]          \
-        [get_bd_intf_pins sfp0_dma/S_AXIS_S2MM]
 
     connect_bd_intf_net                                 \
         [get_bd_intf_pins axi_10g_sfp0/s_axis_tx]       \
@@ -748,19 +732,6 @@ proc create_root_design { parentCell } {
         [get_bd_pins axi_10g_sfp0/signal_detect]        \
         [get_bd_pins xlconstant_val1_1bit/dout]
 
-    #connect_bd_net                                      \
-        [get_bd_ports sfp0_rxp]                         \
-        [get_bd_pins axi_10g_sfp0/rxp]
-    #connect_bd_net                                      \
-        [get_bd_ports sfp0_rxn]                         \
-        [get_bd_pins axi_10g_sfp0/rxn]
-    #connect_bd_net                                      \
-        [get_bd_ports sfp0_txp]                         \
-        [get_bd_pins axi_10g_sfp0/txp]
-    #connect_bd_net                                      \
-        [get_bd_ports sfp0_txn]                         \
-        [get_bd_pins axi_10g_sfp0/txn]
-
     make_bd_pins_external [get_bd_pins axi_10g_sfp0/refclk_p]
     set_property name refclk_p [get_bd_ports refclk_p_0]
     make_bd_pins_external [get_bd_pins axi_10g_sfp0/refclk_n]
@@ -786,12 +757,6 @@ proc create_root_design { parentCell } {
     connect_bd_intf_net -intf_net sfp1_dma_m_axi_s2mm   \
         [get_bd_intf_pins sfp1_dma/M_AXI_S2MM]          \
         [get_bd_intf_pins sfp_ic_HP/S05_AXI]
-    connect_bd_intf_net -intf_net sfp1_dma_m_axis_mm2s  \
-        [get_bd_intf_pins sfp1_dma/M_AXIS_MM2S]         \
-        [get_bd_intf_pins tx_fifo_sfp1/s_axis]
-    connect_bd_intf_net -intf_net rx_fifo_sfp1_m_axis   \
-        [get_bd_intf_pins rx_fifo_sfp1/m_axis]          \
-        [get_bd_intf_pins sfp1_dma/S_AXIS_S2MM]
 
     connect_bd_intf_net                                 \
         [get_bd_intf_pins axi_10g_sfp1/s_axis_tx]       \
@@ -1081,6 +1046,10 @@ proc create_root_design { parentCell } {
         [get_bd_pins sfp_ic_HP/S03_ARESETN]             \
         [get_bd_pins sfp_ic_HP/S04_ARESETN]             \
         [get_bd_pins sfp_ic_HP/S05_ARESETN]             \
+        [get_bd_pins rx_fifo_sfp0/s_axis_aresetn]       \
+        [get_bd_pins tx_fifo_sfp0/s_axis_aresetn]       \
+        [get_bd_pins rx_fifo_sfp1/s_axis_aresetn]       \
+        [get_bd_pins tx_fifo_sfp1/s_axis_aresetn]       \
         [get_bd_pins RESET_BLOCK/sfp_hp_ic_aresetn]
     connect_bd_net -net gmii_gp_ic_aresetn              \
         [get_bd_pins gmii0_dma/axi_resetn]              \
@@ -1109,10 +1078,6 @@ proc create_root_design { parentCell } {
         [get_bd_pins sfp_ic_GP/M01_ARESETN]             \
         [get_bd_pins sfp_ic_GP/M02_ARESETN]             \
         [get_bd_pins sfp_ic_GP/M03_ARESETN]             \
-        [get_bd_pins rx_fifo_sfp0/s_axis_aresetn]       \
-        [get_bd_pins tx_fifo_sfp0/s_axis_aresetn]       \
-        [get_bd_pins rx_fifo_sfp1/s_axis_aresetn]       \
-        [get_bd_pins tx_fifo_sfp1/s_axis_aresetn]       \
         [get_bd_pins not_gate1/Op1]                     \
         [get_bd_pins RESET_BLOCK/sfp_gp_ic_aresetn]
 
@@ -1178,8 +1143,11 @@ proc create_root_design { parentCell } {
         [get_bd_pins clk_wiz_50M/clk_in1]
     connect_bd_net -net clk_free_200M                   \
         [get_bd_pins clk_125M_wiz/clk_in1]              \
-        [get_bd_pins idelay_ctrl1/ref_clk]              \
+        [get_bd_pins bufg_200M/BUFG_I]                  \
         [get_bd_pins ibufds_200M/IBUF_OUT]
+    connect_bd_net -net clk_free_bufg_200M              \
+        [get_bd_pins idelay_ctrl1/ref_clk]              \
+        [get_bd_pins bufg_200M/BUFG_O]
     connect_bd_net -net gmii0_gtx_in                    \
         [get_bd_ports gmii0_gtx_in]                     \
         [get_bd_pins axi_eth_gmii0/gtx_clk]
@@ -1189,15 +1157,6 @@ proc create_root_design { parentCell } {
     connect_bd_net -net gmii2_gtx_in                    \
         [get_bd_ports gmii2_gtx_in]                     \
         [get_bd_pins axi_eth_gmii2/gtx_clk]
-    #connect_bd_net                                      \
-        [get_bd_ports refclk_n]                         \
-        [get_bd_pins axi_10g_sfp0/refclk_n]
-    #connect_bd_net                                      \
-        [get_bd_ports refclk_p]                         \
-        [get_bd_pins axi_10g_sfp0/refclk_p]
-    #connect_bd_intf_net -intf_net mgt1_in_clk           \
-        [get_bd_intf_ports mgt1_in]                     \
-        [get_bd_intf_pins axi_10g_sfp1/mgt_clk]
     connect_bd_net -net clk_free_125M                   \
         [get_bd_pins RESET_BLOCK/slowest_sfp_gp_sync_clk]   \
         [get_bd_pins sfp_ic_GP/ACLK]                    \

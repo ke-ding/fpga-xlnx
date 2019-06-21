@@ -1148,10 +1148,10 @@ proc create_root_design { parentCell } {
         [get_bd_pins axi_eth_gmii2/s_axi_lite_clk]      \
         [get_bd_pins clk_wiz_50M/clk_in1]
     connect_bd_net -net clk_free_200M                   \
-        [get_bd_pins clk_125M_wiz/clk_in1]              \
         [get_bd_pins bufg_200M/BUFG_I]                  \
         [get_bd_pins ibufds_200M/IBUF_OUT]
     connect_bd_net -net clk_free_bufg_200M              \
+        [get_bd_pins clk_125M_wiz/clk_in1]              \
         [get_bd_pins idelay_ctrl1/ref_clk]              \
         [get_bd_pins bufg_200M/BUFG_O]
     connect_bd_net -net gmii0_gtx_in                    \

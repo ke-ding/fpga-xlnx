@@ -446,22 +446,22 @@ proc create_root_design { parentCell } {
     set rx_fifo_sfp0 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
-            -vlnv xilinx.com:ip:axis_data_fifo:1.1      \
+            -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             rx_fifo_sfp0 ]
     set tx_fifo_sfp0 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
-            -vlnv xilinx.com:ip:axis_data_fifo:1.1      \
+            -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             tx_fifo_sfp0 ]
     set rx_fifo_sfp1 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
-            -vlnv xilinx.com:ip:axis_data_fifo:1.1      \
+            -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             rx_fifo_sfp1 ]
     set tx_fifo_sfp1 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
-            -vlnv xilinx.com:ip:axis_data_fifo:1.1      \
+            -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             tx_fifo_sfp1 ]
 
     # Create instance: xlconstant_val0_16bits, and set properties

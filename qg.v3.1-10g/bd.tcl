@@ -431,6 +431,7 @@ proc create_root_design { parentCell } {
             axi_10g_sfp0 ]
     set_property -dict [                                \
         list    CONFIG.SupportLevel {1}                 \
+                CONFIG.Management_Frequency {125.00}    \
                 CONFIG.DClkRate {125} ]                 \
          $axi_10g_sfp0
     set axi_10g_sfp1 [                                  \
@@ -440,6 +441,7 @@ proc create_root_design { parentCell } {
             axi_10g_sfp1 ]
     set_property -dict [                                \
         list    CONFIG.SupportLevel {0}                 \
+                CONFIG.Management_Frequency {125.00}    \
                 CONFIG.DClkRate {125} ]                 \
         $axi_10g_sfp1
 

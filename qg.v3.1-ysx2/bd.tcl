@@ -469,13 +469,15 @@ proc create_root_design { parentCell } {
                 CONFIG.PCW_PRESET_BANK0_VOLTAGE {LVCMOS 1.8V}   \
                 CONFIG.PCW_PRESET_BANK1_VOLTAGE {LVCMOS 1.8V}   \
                 CONFIG.PCW_NAND_PERIPHERAL_ENABLE {1}   \
-                CONFIG.PCW_NAND_CYCLES_T_RR {10}        \
-                CONFIG.PCW_NAND_CYCLES_T_AR {10}        \
-                CONFIG.PCW_NAND_CYCLES_T_CLR {10}       \
-                CONFIG.PCW_NAND_CYCLES_T_WP {10}        \
-                CONFIG.PCW_NAND_CYCLES_T_REA {10}       \
-                CONFIG.PCW_NAND_CYCLES_T_WC {20}        \
-                CONFIG.PCW_NAND_CYCLES_T_RC {20}        \
+                CONFIG.PCW_NAND_CYCLES_T_RR {25}        \
+                CONFIG.PCW_NAND_CYCLES_T_AR {15}        \
+                CONFIG.PCW_NAND_CYCLES_T_CLR {15}       \
+                CONFIG.PCW_NAND_CYCLES_T_WP {30}        \
+                CONFIG.PCW_NAND_CYCLES_T_REA {20}       \
+                CONFIG.PCW_NAND_CYCLES_T_WC {50}        \
+                CONFIG.PCW_NAND_CYCLES_T_RC {50}        \
+                CONFIG.PCW_I2C0_PERIPHERAL_ENABLE {1}   \
+                CONFIG.PCW_I2C0_I2C0_IO {MIO 50 .. 51}  \
                 CONFIG.PCW_ENET0_PERIPHERAL_ENABLE {1}  \
                 CONFIG.PCW_ENET0_GRP_MDIO_ENABLE {1}    \
                 CONFIG.PCW_SD0_PERIPHERAL_ENABLE {1}    \

@@ -469,6 +469,13 @@ proc create_root_design { parentCell } {
                 CONFIG.PCW_PRESET_BANK0_VOLTAGE {LVCMOS 1.8V}   \
                 CONFIG.PCW_PRESET_BANK1_VOLTAGE {LVCMOS 1.8V}   \
                 CONFIG.PCW_NAND_PERIPHERAL_ENABLE {1}   \
+                CONFIG.PCW_NAND_CYCLES_T_RR {10}        \
+                CONFIG.PCW_NAND_CYCLES_T_AR {10}        \
+                CONFIG.PCW_NAND_CYCLES_T_CLR {10}       \
+                CONFIG.PCW_NAND_CYCLES_T_WP {10}        \
+                CONFIG.PCW_NAND_CYCLES_T_REA {10}       \
+                CONFIG.PCW_NAND_CYCLES_T_WC {20}        \
+                CONFIG.PCW_NAND_CYCLES_T_RC {20}        \
                 CONFIG.PCW_ENET0_PERIPHERAL_ENABLE {1}  \
                 CONFIG.PCW_ENET0_GRP_MDIO_ENABLE {1}    \
                 CONFIG.PCW_SD0_PERIPHERAL_ENABLE {1}    \
@@ -484,10 +491,11 @@ proc create_root_design { parentCell } {
         $processing_system7
 
     # create axi_eth_idelay_ctrl
-    create_bd_cell                                      \
+    set idelay_ctrl1 [                                  \
+        create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:util_idelay_ctrl:1.0    \
-        idelay_ctrl1
+        idelay_ctrl1 ]
     # create NOT gate
     set not_gate1 [                                     \
         create_bd_cell                                  \

@@ -142,11 +142,11 @@
 			xlnx,txcsum = <0x2>;
 			xlnx,txlane0-placement = <0x0>;
 			xlnx,txlane1-placement = <0x0>;
-			phy-handle = <&gmii1_phy>;
-			axi_eth_gmii1_mdio: mdio {
+			phy-handle = <&gmii2_phy>;
+			axi_eth_gmii2_mdio: mdio {
 				#address-cells = <1>;
 				#size-cells = <0>;
-				gmii1_phy: phy@1 {
+				gmii2_phy: phy@1 {
 					device_type = "ethernet-phy";
 					reg = <0x1>;
 				};

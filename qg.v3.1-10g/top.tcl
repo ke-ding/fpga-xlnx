@@ -1,5 +1,5 @@
 # Vivado Launch Script
-set impl_const "qg.xdc"
+set impl_const "pins.xdc timing.xdc"
 set device xc7z100ffg900-2 
 set design_top qg_v3-10G
 set proj_dir ../build/${design_top}_design

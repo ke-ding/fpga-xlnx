@@ -323,6 +323,7 @@ proc create_root_design { parentCell } {
                 CONFIG.PRIM_IN_FREQ {200.000}           \
                 CONFIG.MMCM_CLKIN1_PERIOD {5.000}       \
                 CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {125.000} \
+                CONFIG.USE_LOCKED {false}               \
                 CONFIG.USE_RESET {false} ]              \
         $clk_125M_wiz
 
@@ -450,21 +451,37 @@ proc create_root_design { parentCell } {
             -type ip                                    \
             -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             rx_fifo_sfp0 ]
+    set_property -dict [                                \
+        list    CONFIG.FIFO_DEPTH {2048}                \
+                CONFIG.FIFO_MODE {2} ]                  \
+        $rx_fifo_sfp0
     set tx_fifo_sfp0 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             tx_fifo_sfp0 ]
+    set_property -dict [                                \
+        list    CONFIG.FIFO_DEPTH {2048}                \
+                CONFIG.FIFO_MODE {2} ]                  \
+        $tx_fifo_sfp0
     set rx_fifo_sfp1 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             rx_fifo_sfp1 ]
+    set_property -dict [                                \
+        list    CONFIG.FIFO_DEPTH {2048}                \
+                CONFIG.FIFO_MODE {2} ]                  \
+        $rx_fifo_sfp1
     set tx_fifo_sfp1 [                                  \
         create_bd_cell                                  \
             -type ip                                    \
             -vlnv xilinx.com:ip:axis_data_fifo:2.0      \
             tx_fifo_sfp1 ]
+    set_property -dict [                                \
+        list    CONFIG.FIFO_DEPTH {2048}                \
+                CONFIG.FIFO_MODE {2} ]                  \
+        $tx_fifo_sfp1
 
     # Create instance: xlconstant_val0_16bits, and set properties
     set xlconstant_val0_16bits [                        \
@@ -574,6 +591,15 @@ proc create_root_design { parentCell } {
                 CONFIG.PCW_PRESET_BANK0_VOLTAGE {LVCMOS 1.8V}   \
                 CONFIG.PCW_PRESET_BANK1_VOLTAGE {LVCMOS 1.8V}   \
                 CONFIG.PCW_NAND_PERIPHERAL_ENABLE {1}   \
+                CONFIG.PCW_NAND_CYCLES_T_RR {25}        \
+                CONFIG.PCW_NAND_CYCLES_T_AR {15}        \
+                CONFIG.PCW_NAND_CYCLES_T_CLR {15}       \
+                CONFIG.PCW_NAND_CYCLES_T_WP {30}        \
+                CONFIG.PCW_NAND_CYCLES_T_REA {20}       \
+                CONFIG.PCW_NAND_CYCLES_T_WC {50}        \
+                CONFIG.PCW_NAND_CYCLES_T_RC {50}        \
+                CONFIG.PCW_I2C0_PERIPHERAL_ENABLE {1}   \
+                CONFIG.PCW_I2C0_I2C0_IO {MIO 50 .. 51}  \
                 CONFIG.PCW_ENET0_PERIPHERAL_ENABLE {1}  \
                 CONFIG.PCW_ENET0_GRP_MDIO_ENABLE {1}    \
                 CONFIG.PCW_SD0_PERIPHERAL_ENABLE {1}    \

@@ -216,5 +216,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {sfp0_disable_out[0]}]
 set_property PACKAGE_PIN AK16 [get_ports {sfp1_disable_out[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {sfp1_disable_out[0]}]
 
-
+#UART0
+set_property PACKAGE_PIN Y20 [get_ports uart0_rxd]
+set_property IOSTANDARD LVCMOS33 [get_ports uart0_rxd]
+set_property PACKAGE_PIN AA20 [get_ports uart0_txd]
+set_property IOSTANDARD LVCMOS33 [get_ports uart0_txd]
 
